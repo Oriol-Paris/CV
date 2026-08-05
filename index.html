@@ -1,1 +1,942 @@
-hello world
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@400,500,600&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #233f87;
+            --font-display: 'Clash Grotesk', sans-serif;
+            --font-body: 'General Sans', sans-serif;
+            --transition: 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Dark mode (default) */
+        [data-theme="dark"] {
+            --bg: #0f1113;
+            --fg: #f5f5f7;
+            --mute: #a0a0a0;
+            --line: rgba(255, 255, 255, 0.08);
+            --card-bg: rgba(255, 255, 255, 0.02);
+            --header-bg: rgba(15, 17, 19, 0.7);
+            --accent-glow: rgba(35, 63, 135, 0.2);
+        }
+
+        /* Light mode */
+        [data-theme="light"] {
+            --bg: #f8f9fa;
+            --fg: #1a1a1c;
+            --mute: #555555;
+            --line: rgba(0, 0, 0, 0.06);
+            --card-bg: rgba(0, 0, 0, 0.02);
+            --header-bg: rgba(248, 249, 250, 0.7);
+            --accent-glow: rgba(35, 63, 135, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            transition: background-color var(--transition), color var(--transition), border-color var(--transition);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 600;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color var(--transition);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: var(--header-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            transition: background var(--transition), border-color var(--transition), height var(--transition);
+        }
+
+        header .container {
+            width: 100%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1.25rem;
+            letter-spacing: -0.02em;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--fg);
+            padding: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .theme-toggle:hover {
+            background: var(--card-bg);
+            border-color: var(--primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 180px 0 100px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 15vh;
+            margin-bottom: 60px;
+        }
+
+        .hero-name {
+            font-size: clamp(4rem, 15vw, 9rem);
+            font-weight: 600;
+            color: var(--primary);
+            width: fit-content;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            font-family: var(--font-display);
+            min-height: 1.2em;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            min-height: 2.1em;
+        }
+
+        .caret {
+            display: inline-block;
+            width: 4px;
+            height: 1em;
+            background: var(--primary);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink 1s step-end infinite;
+        }
+
+        .caret.is-off {
+            display: none;
+        }
+
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            color: var(--mute);
+            max-width: 550px;
+        }
+
+        .accent-text {
+            color: var(--primary);
+        }
+
+        /* About */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 60px;
+        }
+
+        .about-headline {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        .about-body p {
+            color: var(--mute);
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            display: none;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .stat-n {
+            display: block;
+            font-size: 2rem;
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-l {
+            font-size: 0.85rem;
+            color: var(--mute);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .side-label {
+            font-size: 0.75rem;
+            color: var(--mute);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .focus-cards {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .fcard {
+            display: flex;
+            gap: 20px;
+            padding: 24px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            transition: all var(--transition);
+        }
+
+        .fcard:hover {
+            border-color: var(--primary);
+            background: var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .fcard-ic {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .fcard-h {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            font-family: var(--font-display);
+        }
+
+        .fcard-d {
+            font-size: 0.9rem;
+            color: var(--mute);
+            line-height: 1.5;
+        }
+
+        .tools-container {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--line);
+        }
+
+        .tool-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            list-style: none;
+        }
+
+        section#cv {
+            min-height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .tool-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .tcard {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all var(--transition);
+        }
+
+        .tcard:hover {
+            border-color: var(--primary);
+            background: var(--accent-glow);
+        }
+
+        .tcard img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            filter: grayscale(1) brightness(1.5);
+            transition: filter var(--transition);
+        }
+
+        [data-theme="light"] .tcard img {
+            filter: grayscale(1) brightness(0.5);
+        }
+
+        .tcard:hover img {
+            filter: grayscale(0) brightness(1);
+        }
+
+        /* Experience */
+        .timeline {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .tl-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .tl-date {
+            color: var(--mute);
+            font-size: 0.95rem;
+        }
+
+        .tl-h {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+
+        .tl-h a {
+            color: var(--primary);
+            text-decoration: none;
+            position: relative;
+        }
+
+        .tl-h a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .tl-h a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .tl-h span {
+            color: var(--primary);
+        }
+
+        .tl-body {
+            color: var(--mute);
+            font-size: 1rem;
+        }
+
+        /* CV */
+        .cv-card {
+            padding: 40px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        @media (max-width: 860px) {
+            .about-grid, .tl-item, .cv-card {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 30px;
+            }
+            .tl-item {
+                gap: 10px;
+            }
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            letter-spacing: -0.02em;
+            color: var(--primary);
+        }
+
+        .section-title em {
+            font-style: normal;
+        }
+
+        .section-title::after {
+            content: "";
+            height: 1px;
+            background: var(--line);
+            flex-grow: 1;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 64px;
+        }
+
+        .project-card {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: clamp(24px, 5vw, 48px);
+            align-items: center;
+        }
+
+        .project-image {
+            aspect-ratio: 16/10;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--line);
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.02);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px -20px var(--accent-glow);
+        }
+
+        .project-image::before {
+             content: "";
+             position: absolute;
+             inset: 0;
+             background: radial-gradient(circle at 30% 20%, var(--accent-glow), transparent);
+        }
+
+        .project-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+        }
+
+        .project-info p {
+            color: var(--mute);
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .tags li {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 6px 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 100px;
+            color: var(--mute);
+            transition: all var(--transition);
+        }
+
+        .project-card:hover .tags li {
+            border-color: rgba(35, 63, 135, 0.3);
+            color: var(--fg);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-family: var(--font-display);
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1), background-color var(--transition), color var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px var(--primary);
+            filter: brightness(1.1);
+        }
+
+        /* Nav item underline effect */
+        .nav-links a {
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .nav-links a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Footer */
+        footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--line);
+            color: var(--mute);
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @media (max-width: 860px) {
+            .project-card {
+                grid-template-columns: 1fr;
+            }
+            .project-card:nth-child(even) .project-image {
+                order: 0;
+            }
+            .hero {
+                padding: 140px 0 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+        /* Smooth transitions for all theme-affected elements */
+        body * {
+            transition: background-color var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+        }
+
+        /* Specific overrides where we don't want the global transition to interfere with specific animations */
+        .project-image, .btn, .nav-links a::after, .theme-toggle, .sun-icon, .moon-icon {
+            transition: all var(--transition);
+        }
+
+    </style>
+</head>
+<body data-theme="dark">
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">OPF</a>
+                <div class="nav-links">
+                    <a href="#about">About</a>
+                    <a href="#games">Games</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#experience">Experience</a>
+                    <a href="#education">Education</a>
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                        <!-- Sun icon -->
+                        <svg class="sun-icon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <!-- Moon icon -->
+                        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-name">
+                <span class="typed" data-text="Oriol Paris"></span>
+                <span class="caret name-caret" aria-hidden="true"></span>
+            </div>
+            <div class="hero-content">
+                <h1>Game Programmer & Creative Developer.</h1>
+                <p class="lead">Crafting immersive digital experiences through code and design. Specializing in gameplay mechanics and interactive systems.</p>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="sec-head">
+                <h2 class="section-title">About <em>me</em></h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-lead" style="--i:1">
+                    <h3 class="about-headline">I design and program systems that shape experiences, taking care of the entire development pipeline.</h3>
+                    <div class="about-body">
+                        <p>Developer focused on video games. I get involved in every project I enter and jump in wherever needed: gameplay, systems, internal tools, or whatever it takes to move it forward.</p>
+                        
+                        <div class="tools-container">
+                            <span class="side-label">Tools</span>
+                            <ul class="tool-cards">
+                                <li class="tcard">
+                                    <img src="/icons/unity.svg" alt="Unity" width="26" height="26">
+                                    <span>Unity</span>
+                                </li>
+                                <li class="tcard">
+                                    <img src="/icons/csharp.svg" alt="C#" width="26" height="26">
+                                    <span>C#</span>
+                                </li>
+                                <li class="tcard">
+                                    <img src="/icons/cplusplus.svg" alt="C++" width="26" height="26">
+                                    <span>C++</span>
+                                </li>
+                                <li class="tcard">
+                                    <img src="/icons/unreal.svg" alt="Unreal Engine" width="26" height="26">
+                                    <span>Unreal</span>
+                                </li>
+                                <li class="tcard">
+                                    <img src="/icons/git.svg" alt="Git" width="26" height="26">
+                                    <span>Git</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-side" style="--i:2">
+                    <span class="side-label">What I do</span>
+                    <ul class="focus-cards">
+                        <li class="fcard">
+                            <span class="fcard-ic">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3 21 8 12 13 3 8 12 3Z"/>
+                                    <path d="M3 13 12 18 21 13"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="fcard-h">Systems & Gameplay</span>
+                                <span class="fcard-d">Mechanics, architecture and the code that sustains the experience.</span>
+                            </div>
+                        </li>
+                        <li class="fcard">
+                            <span class="fcard-ic">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8 8 4 12 8 16"/>
+                                    <path d="M16 8 20 12 16 16"/>
+                                    <path d="M13 6 11 18"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="fcard-h">Tools & Pipeline</span>
+                                <span class="fcard-d">Tooling and workflows that accelerate the entire team.</span>
+                            </div>
+                        </li>
+                        <li class="fcard">
+                            <span class="fcard-ic">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M5 21 5 4"/>
+                                    <path d="M5 5 16 5 14 8.5 16 12 5 12"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <span class="fcard-h">Technical Production</span>
+                                <span class="fcard-d">I take initiative and lead the project to completion.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="games">
+            <div class="sec-head">
+                <h2 class="section-title">My <em>games</em></h2>
+            </div>
+            <div class="project-grid">
+                <!-- Project Template 1 -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <!-- Placeholder -->
+                    </div>
+                    <div class="project-info">
+                        <h3>Game Template Alpha</h3>
+                        <p>A brief description of the game, focusing on the core mechanics and your specific contributions to the development process.</p>
+                        <ul class="tags">
+                            <li>Engine/Tool</li>
+                            <li>Language</li>
+                            <li>Genre</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View Game</a>
+                    </div>
+                </article>
+
+                <!-- Project Template 2 -->
+                <article class="project-card">
+                    <div class="project-image" style="order: -1;">
+                        <!-- Placeholder -->
+                    </div>
+                    <div class="project-info">
+                        <h3>Game Template Beta</h3>
+                        <p>Highlight another significant game, detailing technical challenges overcome and the innovative solutions implemented.</p>
+                        <ul class="tags">
+                            <li>Engine/Tool</li>
+                            <li>Language</li>
+                            <li>Feature</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View Game</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="sec-head">
+                <h2 class="section-title"><em>Projects</em></h2>
+            </div>
+            <div class="project-grid">
+                <!-- Project Template 1 -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <!-- Placeholder -->
+                    </div>
+                    <div class="project-info">
+                        <h3>Project Template Alpha</h3>
+                        <p>A brief description of the project, focusing on the core mechanics and your specific contributions to the development process.</p>
+                        <ul class="tags">
+                            <li>Tool/Library</li>
+                            <li>Language</li>
+                            <li>Scope</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View Project</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="sec-head">
+                <h2 class="section-title"><em>Experience</em></h2>
+            </div>
+            <ol class="timeline">
+                <li class="tl-item">
+                    <div class="tl-date">2024 — Present</div>
+                    <div class="tl-content">
+                        <h3 class="tl-h">Senior Game Programmer <span>@ <a href="https://example.com" target="_blank">Studio Name</a></span></h3>
+                        <div class="tl-body">
+                            <p>Leading the development of core gameplay systems and optimizing performance for multi-platform releases.</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-item">
+                    <div class="tl-date">2021 — 2023</div>
+                    <div class="tl-content">
+                        <h3 class="tl-h">Game Developer <span>@ <a href="https://example.com" target="_blank">Company Name</a></span></h3>
+                        <div class="tl-body">
+                            <p>Contributed to various projects focusing on AI behavior, UI systems, and backend integration.</p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section id="education">
+            <div class="sec-head">
+                <h2 class="section-title"><em>Education</em></h2>
+            </div>
+            <ol class="timeline">
+                <li class="tl-item">
+                    <div class="tl-date">2017 — 2021</div>
+                    <div class="tl-content">
+                        <h3 class="tl-h">Degree in Game Development <span>@ <a href="https://example.com" target="_blank">University Name</a></span></h3>
+                        <div class="tl-body">
+                            <p>Focused on computer science, mathematics, and game engine architecture.</p>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <section id="cv">
+            <div class="sec-head">
+                <h2 class="section-title">My <em>CV</em></h2>
+            </div>
+            <div class="cv-card">
+                <div class="cv-main">
+                    <h3>Want more details?</h3>
+                    <p>Download the full curriculum in PDF format.</p>
+                </div>
+                <a href="#" class="btn btn-primary">Download CV ↓</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const themeToggle = document.getElementById('theme-toggle');
+        const sunIcon = document.querySelector('.sun-icon');
+        const moonIcon = document.querySelector('.moon-icon');
+        const body = document.body;
+
+        function setTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            
+            // Add a temporary class to body to disable transitions during immediate theme application
+            // But we actually want a smooth transition for the theme switch itself.
+            
+            if (theme === 'light') {
+                sunIcon.style.display = 'block';
+                moonIcon.style.display = 'none';
+            } else {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'block';
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+        });
+
+        // Initialize theme (default to dark as requested)
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(savedTheme);
+
+        // Typing Effect
+        function initTyping() {
+            const typedEl = document.querySelector('.typed');
+            const caretEl = document.querySelector('.name-caret');
+            if (!typedEl) return;
+
+            const text = typedEl.dataset.text.replace(/\\n/g, '\n');
+            let i = 0;
+
+            function type() {
+                if (i < text.length) {
+                    const char = text.charAt(i++);
+                    if (char === '\n') {
+                        typedEl.appendChild(document.createElement('br'));
+                    } else {
+                        typedEl.appendChild(document.createTextNode(char));
+                    }
+                    setTimeout(type, 50 + Math.random() * 50);
+                }
+            }
+
+            typedEl.textContent = '';
+            setTimeout(type, 500);
+        }
+
+
+        // Smooth internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView();
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initTyping();
+        });
+    </script>
+</body>
+</html>
