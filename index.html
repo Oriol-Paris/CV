@@ -137,9 +137,9 @@
             transition: transform var(--transition);
         }
 
-        .menu-toggle.active .line-1 { transform: translateX(1px) translateY(5px) rotate(45deg); }
+        .menu-toggle.active .line-1 { transform: translateY(6px) rotate(45deg); }
         .menu-toggle.active .line-2 { opacity: 0; }
-        .menu-toggle.active .line-3 { transform: translateX(1px) translateY(-5px) rotate(-45deg); }
+        .menu-toggle.active .line-3 { transform: translateY(-6px) rotate(-45deg); }
 
         .menu-toggle line {
             transform-origin: 12px 12px;
@@ -407,29 +407,29 @@
             }
 
             .modal-container {
-                border-radius: 0;
-                border: none;
-                width: 100vw;
-                max-width: 100vw;
-                min-height: 100vh;
-                margin: 0;
-                overflow-x: hidden;
-            }
-
-            .gallery-container {
-                padding: 0;
+                border-radius: 0 !important;
+                border: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100% !important;
+                min-height: 100vh !important;
+                margin: 0 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
             }
 
             .gallery-main {
-                height: 40vh;
-                width: 100%;
-                overflow: hidden;
+                height: 40vh !important;
+                width: 100% !important;
+                overflow: hidden !important;
             }
 
             .gallery-item img, .gallery-item video {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: contain !important;
             }
 
             .gallery-thumbs {
@@ -445,8 +445,10 @@
             }
 
             .modal-info {
-                padding: 24px 20px 40px;
-                overflow-x: hidden;
+                padding: 24px 20px 40px !important;
+                overflow-x: hidden !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
 
             .modal-info h2 {
@@ -890,6 +892,7 @@
         .modal.active {
             display: flex;
             opacity: 1;
+            justify-content: center;
         }
 
         .modal-container {
