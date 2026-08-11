@@ -558,6 +558,260 @@
             filter: brightness(1.1);
         }
 
+        /* Game Detail Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            overflow-y: auto;
+            padding: 40px 16px;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .modal-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            color: var(--fg);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Gallery */
+        .gallery-container {
+            background: #000;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 40px 0;
+        }
+
+        .gallery-main {
+            width: 100%;
+            height: 60vh;
+            position: relative;
+        }
+
+        .gallery-item {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-item.active {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .gallery-item img, .gallery-item video {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: fit-content;
+            min-width: 300px;
+            max-width: 100%;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 5;
+        }
+
+        .gallery-item:hover .video-controls {
+            opacity: 1;
+        }
+
+        .control-btn {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .control-btn:hover {
+            color: var(--primary);
+        }
+
+        .volume-slider {
+            width: 60px;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 4px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            overflow-x: auto;
+            z-index: 3;
+            height: auto;
+            max-width: 100%;
+        }
+
+        .thumb {
+            width: auto;
+            height: 60px;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 2px;
+            overflow: hidden;
+            opacity: 0.5;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .thumb.portrait {
+            aspect-ratio: 9/16;
+        }
+
+        .thumb.video-thumb::after {
+            content: "▶";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .thumb.active {
+            border-color: var(--primary);
+            opacity: 1;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Modal Info */
+        .modal-info {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-info h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .modal-description {
+            color: var(--mute);
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .modal-meta {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .modal-tags li {
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 100px;
+        }
+
         /* Nav item underline effect */
         .nav-links a {
             position: relative;
@@ -655,8 +909,8 @@
                 <span class="caret name-caret" aria-hidden="true"></span>
             </div>
             <div class="hero-content">
-                <h1>Game Programmer & Creative Developer.</h1>
-                <p class="lead">Crafting immersive digital experiences through code and design. Specializing in gameplay mechanics and interactive systems.</p>
+                <h1>Game Programmer & <br> Technical Designer.</h1>
+                <p class="lead">Site still development, last updated 11/08/2026</p>
             </div>
         </section>
 
@@ -674,23 +928,23 @@
                             <span class="side-label">Tools</span>
                             <ul class="tool-cards">
                                 <li class="tcard">
-                                    <img src="/icons/unity.svg" alt="Unity" width="26" height="26">
+                                    <img src="assets/icons/unity.svg" alt="Unity" width="26" height="26">
                                     <span>Unity</span>
                                 </li>
                                 <li class="tcard">
-                                    <img src="/icons/csharp.svg" alt="C#" width="26" height="26">
+                                    <img src="assets/icons/csharp.svg" alt="C#" width="26" height="26">
                                     <span>C#</span>
                                 </li>
                                 <li class="tcard">
-                                    <img src="/icons/cplusplus.svg" alt="C++" width="26" height="26">
+                                    <img src="assets/icons/cplusplus.svg" alt="C++" width="26" height="26">
                                     <span>C++</span>
                                 </li>
                                 <li class="tcard">
-                                    <img src="/icons/unreal.svg" alt="Unreal Engine" width="26" height="26">
+                                    <img src="assets/icons/unreal.svg" alt="Unreal Engine" width="26" height="26">
                                     <span>Unreal</span>
                                 </li>
                                 <li class="tcard">
-                                    <img src="/icons/git.svg" alt="Git" width="26" height="26">
+                                    <img src="assets/icons/git.svg" alt="Git" width="26" height="26">
                                     <span>Git</span>
                                 </li>
                             </ul>
@@ -747,35 +1001,66 @@
                 <h2 class="section-title">My <em>games</em></h2>
             </div>
             <div class="project-grid">
-                <!-- Project Template 1 -->
+                <!-- Time Shards -->
                 <article class="project-card">
                     <div class="project-image">
-                        <!-- Placeholder -->
+                        <img src="assets/images/games/time-shards.jpg" alt="Time Shards" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="project-info">
-                        <h3>Game Template Alpha</h3>
-                        <p>A brief description of the game, focusing on the core mechanics and your specific contributions to the development process.</p>
+                        <h3>Time Shards</h3>
+                        <p>A 2D-HD action roguelike where players manipulate time to survive challenging encounters.</p>
                         <ul class="tags">
-                            <li>Engine/Tool</li>
-                            <li>Language</li>
-                            <li>Genre</li>
+                            <li>Unity</li>
+                            <li>C#</li>
+                            <li>2D-HD</li>
+                            <li>Action Roguelike</li>
                         </ul>
-                        <a href="#" class="btn btn-primary">View Game</a>
+                        <button class="btn btn-primary view-game-btn" 
+                                data-title="Time Shards" 
+                                data-description="Time Shards is a real-time strategy roguelite where your actions unfold simultaneously with your enemies'. Inspired by tactical titles like Arco, Frozen Synapse, and Door Kickers, the game challenges you to think fast and plan smarter in tense, time-sensitive encounters. After the crystal that holds time together is shattered, you must harness its scattered shards to battle through chaotic realms and restore the timeline—one tactical decision at a time."
+                                data-tags="Unity,C#,2D-HD,Action Roguelike"
+                                data-media='[{"type":"video","src":"assets/videos/time-shards-trailer.mp4","thumb":"assets/images/games/time-shards-thumb.jpg"},{"type":"image","src":"assets/images/games/time-shards-1.jpg"},{"type":"image","src":"assets/images/games/time-shards-2.jpg"},{"type":"image","src":"assets/images/games/time-shards-3.jpg"},{"type":"image","src":"assets/images/games/time-shards-4.jpg"}]'>
+                            View Game
+                        </button>
                     </div>
                 </article>
 
-                <!-- Project Template 2 -->
+                <!-- Paw-Some Adventure -->
                 <article class="project-card">
                     <div class="project-image" style="order: -1;">
-                        <!-- Placeholder -->
+                        <img src="assets/images/games/pawsome-adventure.jpg" alt="Paw-Some Adventure" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="project-info">
-                        <h3>Game Template Beta</h3>
-                        <p>Highlight another significant game, detailing technical challenges overcome and the innovative solutions implemented.</p>
+                        <h3>Paw-Some Adventure</h3>
+                        <p>Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce.</p>
                         <ul class="tags">
-                            <li>Engine/Tool</li>
-                            <li>Language</li>
-                            <li>Feature</li>
+                            <li>Unity</li>
+                            <li>C#</li>
+                            <li>Mobile</li>
+                            <li>Puzzle</li>
+                        </ul>
+                        <button class="btn btn-primary view-game-btn" 
+                                data-title="Paw-Some Adventure" 
+                                data-description="Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce. But beware of the spikes.&#10;&#10;Even if you don't have a special ability other than bouncing, there are a bunch of elements with mysterious effect for you to discover and use.&#10;&#10;Maybe your luck allows you to survive the levels, but if you aren't wise enough, forget about the collection of trophies. Three trophies for every level, one for passing it, and the others depends on how many bounces have you done."
+                                data-tags="Unity,C#,Mobile,Puzzle"
+                                data-media='[{"type":"video","src":"assets/videos/pawsome-adventure-trailer.mp4","thumb":"assets/images/games/pawsome-adventure-thumb.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-1.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-2.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-3.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-4.jpg"}]'>
+                            View Game
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Hell of a Collector -->
+                <article class="project-card">
+                    <div class="project-image">
+                        <img src="assets/images/games/hell-collector.jpg" alt="Hell of a Collector" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="project-info">
+                        <h3>Hell of a Collector</h3>
+                        <p>A challenging 2D platformer that tests your precision and reflexes in a thematic underworld.</p>
+                        <ul class="tags">
+                            <li>Unity</li>
+                            <li>C#</li>
+                            <li>2D Platformer</li>
                         </ul>
                         <a href="#" class="btn btn-primary">View Game</a>
                     </div>
@@ -863,6 +1148,41 @@
             </div>
         </section>
     </main>
+    
+    <!-- Game Detail Modal -->
+    <div id="game-modal" class="modal">
+        <div class="modal-container">
+            <button class="modal-close" aria-label="Close modal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="gallery-container">
+                <div class="gallery-main" id="modal-gallery-main">
+                    <!-- Gallery items injected here -->
+                </div>
+                <div class="gallery-thumbs" id="modal-gallery-thumbs">
+                    <!-- Thumbnails injected here -->
+                </div>
+            </div>
+            <div class="modal-info">
+                <h2 id="modal-title">Game Title</h2>
+                <div class="modal-description" id="modal-description">
+                    Description goes here.
+                </div>
+                <div class="modal-meta">
+                    <div class="meta-row">
+                        <span class="side-label">Genre</span>
+                        <div id="modal-genre">Roguelite, Strategy</div>
+                    </div>
+                    <div class="meta-row">
+                        <span class="side-label">Tags</span>
+                        <ul class="modal-tags" id="modal-tags">
+                            <!-- Tags injected here -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const themeToggle = document.getElementById('theme-toggle');
@@ -936,7 +1256,200 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             initTyping();
+            initGameModal();
         });
+
+        // Game Modal Logic
+        function initGameModal() {
+            const modal = document.getElementById('game-modal');
+            const closeBtn = modal.querySelector('.modal-close');
+            const viewBtns = document.querySelectorAll('.view-game-btn');
+            
+            let currentSlide = 0;
+            let slideInterval;
+            
+            function openModal(btn) {
+                const title = btn.dataset.title;
+                const desc = btn.dataset.description;
+                const tags = btn.dataset.tags.split(',');
+                const media = JSON.parse(btn.dataset.media);
+                
+                document.getElementById('modal-title').textContent = title;
+                document.getElementById('modal-description').textContent = desc;
+                
+                const tagsContainer = document.getElementById('modal-tags');
+                tagsContainer.innerHTML = '';
+                tags.forEach(t => {
+                    const li = document.createElement('li');
+                    li.textContent = t.trim();
+                    tagsContainer.appendChild(li);
+                });
+                
+                const galleryMain = document.getElementById('modal-gallery-main');
+                const galleryThumbs = document.getElementById('modal-gallery-thumbs');
+                galleryMain.innerHTML = '';
+                galleryThumbs.innerHTML = '';
+                
+                media.forEach((item, index) => {
+                    // Main item
+                    const div = document.createElement('div');
+                    div.className = `gallery-item ${index === 0 ? 'active' : ''}`;
+                    
+                    if (item.type === 'video') {
+                        const video = document.createElement('video');
+                        video.src = item.src;
+                        video.controls = false;
+                        video.muted = false;
+                        video.autoplay = (index === 0);
+                        video.playsInline = true;
+                        video.addEventListener('ended', nextSlide);
+                        div.appendChild(video);
+
+                        // Add custom controls
+                        const controls = document.createElement('div');
+                        controls.className = 'video-controls';
+                        controls.innerHTML = `
+                            <button class="control-btn play-pause">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                            </button>
+                            <button class="control-btn mute-unmute">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                            </button>
+                            <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                            <button class="control-btn fullscreen" style="margin-left: auto;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+                            </button>
+                        `;
+
+                        const playBtn = controls.querySelector('.play-pause');
+                        const muteBtn = controls.querySelector('.mute-unmute');
+                        const volumeInput = controls.querySelector('.volume-slider');
+                        const fsBtn = controls.querySelector('.fullscreen');
+
+                        playBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (video.paused) {
+                                video.play();
+                                playBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                            } else {
+                                video.pause();
+                                playBtn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+                            }
+                        });
+
+                        muteBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            video.muted = !video.muted;
+                            muteBtn.innerHTML = video.muted ? 
+                                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2V15H6L11 19V5Z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>' :
+                                '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>';
+                        });
+
+                        volumeInput.addEventListener('input', (e) => {
+                            e.stopPropagation();
+                            video.volume = e.target.value;
+                        });
+
+                        fsBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (video.requestFullscreen) video.requestFullscreen();
+                            else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+                            else if (video.msRequestFullscreen) video.msRequestFullscreen();
+                        });
+
+                        div.appendChild(controls);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = item.src;
+                        div.appendChild(img);
+                    }
+                    galleryMain.appendChild(div);
+                    
+                    // Thumb
+                    const thumb = document.createElement('div');
+                    thumb.className = `thumb ${index === 0 ? 'active' : ''} ${item.type === 'video' ? 'video-thumb' : ''}`;
+                    
+                    const thumbImg = document.createElement('img');
+                    thumbImg.src = item.thumb || item.src;
+                    thumb.appendChild(thumbImg);
+                    
+                    // Determine orientation for thumb
+                    thumbImg.onload = () => {
+                        if (thumbImg.naturalHeight > thumbImg.naturalWidth) {
+                            thumb.classList.add('portrait');
+                        }
+                    };
+
+                    thumb.addEventListener('click', () => setSlide(index));
+                    galleryThumbs.appendChild(thumb);
+                });
+                
+                currentSlide = 0;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                startAutoCycle();
+            }
+            
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                stopAutoCycle();
+                // Stop videos
+                modal.querySelectorAll('video').forEach(v => v.pause());
+            }
+            
+            function setSlide(index) {
+                const items = modal.querySelectorAll('.gallery-item');
+                const thumbs = modal.querySelectorAll('.thumb');
+                
+                items[currentSlide].classList.remove('active');
+                thumbs[currentSlide].classList.remove('active');
+                
+                // Pause current video if it was one
+                const currentVideo = items[currentSlide].querySelector('video');
+                if (currentVideo) currentVideo.pause();
+                
+                currentSlide = index;
+                
+                items[currentSlide].classList.add('active');
+                thumbs[currentSlide].classList.add('active');
+                
+                // Play new video if it is one
+                const newVideo = items[currentSlide].querySelector('video');
+                if (newVideo) {
+                    newVideo.currentTime = 0;
+                    newVideo.play();
+                    stopAutoCycle(); // Wait for video to end
+                } else {
+                    startAutoCycle();
+                }
+            }
+            
+            function nextSlide() {
+                const items = modal.querySelectorAll('.gallery-item');
+                const next = (currentSlide + 1) % items.length;
+                setSlide(next);
+            }
+            
+            function startAutoCycle() {
+                stopAutoCycle();
+                const items = modal.querySelectorAll('.gallery-item');
+                const currentItem = items[currentSlide];
+                if (currentItem && currentItem.querySelector('video')) return; // Don't auto-cycle if video is playing
+                
+                slideInterval = setInterval(nextSlide, 10000);
+            }
+            
+            function stopAutoCycle() {
+                clearInterval(slideInterval);
+            }
+            
+            viewBtns.forEach(btn => btn.addEventListener('click', () => openModal(btn)));
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
     </script>
 </body>
 </html>
