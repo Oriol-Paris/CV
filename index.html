@@ -136,9 +136,14 @@
             transition: transform var(--transition);
         }
 
-        .menu-toggle.active .line-1 { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active .line-1 { transform: translateY(6px) rotate(45deg); }
         .menu-toggle.active .line-2 { opacity: 0; }
-        .menu-toggle.active .line-3 { transform: rotate(-45deg) translate(5px, -5px); }
+        .menu-toggle.active .line-3 { transform: translateY(-6px) rotate(-45deg); }
+
+        .menu-toggle line {
+            transform-origin: center;
+            transition: all var(--transition);
+        }
 
         .theme-toggle {
             background: none;
@@ -378,18 +383,19 @@
             }
 
             .lang-dropdown {
+                position: absolute;
                 bottom: calc(100% + 10px);
                 top: auto;
                 left: 50%;
                 transform: translateX(-50%) translateY(10px);
                 opacity: 0;
                 pointer-events: none;
-                display: none;
                 flex-direction: column;
+                z-index: 1000;
+                display: flex; /* Always flex but hidden by opacity/pointer-events */
             }
 
             .lang-dropdown.active {
-                display: flex;
                 transform: translateX(-50%) translateY(0);
                 opacity: 1;
                 pointer-events: all;
@@ -1933,7 +1939,6 @@
             // Menu elements
             const menuToggle = document.getElementById('menu-toggle');
             const navLinks = document.querySelector('.nav-links');
-            const navItems = navLinks.querySelectorAll('a:not([data-lang])');
 
             if (menuToggle && navLinks) {
                 menuToggle.addEventListener('click', (e) => {
@@ -1941,24 +1946,35 @@
                     menuToggle.classList.toggle('active');
                     navLinks.classList.toggle('active');
                     document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+                    
+                    // Close language dropdown if menu is closed
+                    if (!navLinks.classList.contains('active')) {
+                        langDropdown.classList.remove('active');
+                    }
                 });
 
-                navItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        menuToggle.classList.remove('active');
-                        navLinks.classList.remove('active');
-                        document.body.style.overflow = '';
-                    });
+            navLinks.querySelectorAll('a').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // Don't close menu if clicking language links
+                    if (item.hasAttribute('data-lang')) return;
+                    
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    langDropdown.classList.remove('active');
+                    document.body.style.overflow = '';
                 });
+            });
 
                 // Close menu when clicking outside
                 document.addEventListener('click', (e) => {
                     if (navLinks.classList.contains('active') && 
                         !navLinks.contains(e.target) && 
                         !menuToggle.contains(e.target) &&
-                        !langDropdown.contains(e.target)) {
+                        !langDropdown.contains(e.target) &&
+                        !langBtn.contains(e.target)) {
                         menuToggle.classList.remove('active');
                         navLinks.classList.remove('active');
+                        langDropdown.classList.remove('active');
                         document.body.style.overflow = '';
                     }
                 });
