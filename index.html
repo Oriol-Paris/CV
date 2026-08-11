@@ -402,7 +402,7 @@
             transform-origin: left;
         }
 
-        .tl-h span {
+        .tl-h .company-accent {
             color: var(--primary);
         }
 
@@ -421,6 +421,121 @@
             justify-content: space-between;
             align-items: center;
             gap: 40px;
+        }
+
+        .cv-download-wrapper {
+            position: relative;
+        }
+
+        .cv-dropdown {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            min-width: 160px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s var(--transition), transform 0.3s var(--transition);
+        }
+
+        .cv-dropdown.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cv-dropdown a {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: background var(--transition), color var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cv-dropdown a:hover {
+            background: var(--accent-glow);
+            color: var(--primary);
+        }
+
+        .cv-dropdown a:not(:last-child), .lang-dropdown a:not(:last-child) {
+            border-bottom: 1px solid var(--line);
+        }
+
+        .lang-selector-wrapper {
+            position: relative;
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            min-width: 140px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            z-index: 100;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s var(--transition), transform 0.3s var(--transition);
+        }
+
+        .lang-dropdown.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .lang-dropdown a {
+            padding: 10px 16px;
+            text-decoration: none;
+            color: var(--fg);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: background var(--transition), color var(--transition);
+            cursor: pointer;
+        }
+
+        .lang-dropdown a:hover {
+            background: var(--accent-glow);
+            color: var(--primary);
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--fg);
+            padding: 0 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all var(--transition);
+            text-transform: uppercase;
+        }
+
+        .lang-btn:hover {
+            background: var(--card-bg);
+            border-color: var(--primary);
         }
 
         @media (max-width: 860px) {
@@ -472,13 +587,25 @@
         }
 
         .project-card {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
+            display: flex;
             gap: clamp(24px, 5vw, 48px);
             align-items: center;
         }
 
+        .project-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .project-card:nth-child(even) .project-info {
+            text-align: right;
+        }
+
+        .project-card:nth-child(even) .tags {
+            justify-content: flex-end;
+        }
+
         .project-image {
+            flex: 1.1;
             aspect-ratio: 16/10;
             background: var(--card-bg);
             border-radius: 20px;
@@ -488,10 +615,33 @@
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), border-color var(--transition), box-shadow var(--transition);
         }
 
+        .project-info {
+            flex: 0.9;
+        }
+
         .project-card:hover .project-image {
             transform: scale(1.02);
             border-color: var(--primary);
             box-shadow: 0 20px 40px -20px var(--accent-glow);
+        }
+
+        @media (max-width: 860px) {
+            .project-card, .project-card:nth-child(even) {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .project-card:nth-child(even) .project-info {
+                text-align: left;
+            }
+
+            .project-card:nth-child(even) .tags {
+                justify-content: flex-start;
+            }
+
+            .project-image, .project-info {
+                flex: none;
+            }
         }
 
         .project-image::before {
@@ -666,19 +816,37 @@
         .video-controls {
             position: absolute;
             bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: fit-content;
-            min-width: 300px;
-            max-width: 100%;
-            padding: 20px;
+            left: 0;
+            width: 100%;
+            padding: 15px;
             background: linear-gradient(transparent, rgba(0,0,0,0.8));
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             opacity: 0;
             transition: opacity 0.3s ease;
             z-index: 5;
+            box-sizing: border-box;
+        }
+
+        .gallery-item video {
+            position: relative;
+        }
+
+        /* Container for controls to match video width */
+        .video-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .video-container video {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
         .gallery-item:hover .video-controls {
@@ -736,7 +904,7 @@
             aspect-ratio: 16/9;
             cursor: pointer;
             border: 2px solid transparent;
-            border-radius: 2px;
+            border-radius: 4px;
             overflow: hidden;
             opacity: 0.5;
             transition: all 0.2s ease;
@@ -886,11 +1054,24 @@
             <nav>
                 <a href="/" class="logo">OPF</a>
                 <div class="nav-links">
-                    <a href="#about">About</a>
-                    <a href="#games">Games</a>
-                    <a href="#projects">Projects</a>
-                    <a href="#experience">Experience</a>
-                    <a href="#education">Education</a>
+                    <a href="#about" data-i18n="nav-about">About</a>
+                    <a href="#games" data-i18n="nav-games">Games</a>
+                    <a href="#projects" data-i18n="nav-projects">Projects</a>
+                    <a href="#experience" data-i18n="nav-experience">Experience</a>
+                    <a href="#education" data-i18n="nav-education">Education</a>
+                    
+                    <div class="lang-selector-wrapper">
+                        <button id="lang-btn" class="lang-btn">
+                            <span id="current-lang">EN</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                        </button>
+                        <div id="lang-dropdown" class="lang-dropdown">
+                            <a data-lang="en">English</a>
+                            <a data-lang="es">Español</a>
+                            <a data-lang="ca">Català</a>
+                        </div>
+                    </div>
+
                     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
                         <!-- Sun icon -->
                         <svg class="sun-icon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
@@ -916,16 +1097,16 @@
 
         <section id="about">
             <div class="sec-head">
-                <h2 class="section-title">About <em>me</em></h2>
+                <h2 class="section-title"><span data-i18n="about-title-1">About</span> <em data-i18n="about-title-2">me</em></h2>
             </div>
             <div class="about-grid">
                 <div class="about-lead" style="--i:1">
-                    <h3 class="about-headline">I design and program systems that shape experiences, taking care of the entire development pipeline.</h3>
+                    <h3 class="about-headline" data-i18n="about-headline">I design and program systems that shape experiences, taking care of the entire development pipeline.</h3>
                     <div class="about-body">
-                        <p>Developer focused on video games. I get involved in every project I enter and jump in wherever needed: gameplay, systems, internal tools, or whatever it takes to move it forward.</p>
+                        <p data-i18n="about-body-1">Developer focused on video games. I get involved in every project I enter and jump in wherever needed: gameplay, systems, internal tools, or whatever it takes to move it forward.</p>
                         
                         <div class="tools-container">
-                            <span class="side-label">Tools</span>
+                            <span class="side-label" data-i18n="about-tools">Tools</span>
                             <ul class="tool-cards">
                                 <li class="tcard">
                                     <img src="assets/icons/unity.svg" alt="Unity" width="26" height="26">
@@ -952,7 +1133,7 @@
                     </div>
                 </div>
                 <div class="about-side" style="--i:2">
-                    <span class="side-label">What I do</span>
+                    <span class="side-label" data-i18n="about-do">What I do</span>
                     <ul class="focus-cards">
                         <li class="fcard">
                             <span class="fcard-ic">
@@ -962,8 +1143,8 @@
                                 </svg>
                             </span>
                             <div>
-                                <span class="fcard-h">Systems & Gameplay</span>
-                                <span class="fcard-d">Mechanics, architecture and the code that sustains the experience.</span>
+                                <span class="fcard-h" data-i18n="about-card-1-h">Systems & Gameplay</span>
+                                <span class="fcard-d" data-i18n="about-card-1-d">Mechanics, architecture and the code that sustains the experience.</span>
                             </div>
                         </li>
                         <li class="fcard">
@@ -975,8 +1156,8 @@
                                 </svg>
                             </span>
                             <div>
-                                <span class="fcard-h">Tools & Pipeline</span>
-                                <span class="fcard-d">Tooling and workflows that accelerate the entire team.</span>
+                                <span class="fcard-h" data-i18n="about-card-2-h">Tools & Pipeline</span>
+                                <span class="fcard-d" data-i18n="about-card-2-d">Tooling and workflows that accelerate the entire team.</span>
                             </div>
                         </li>
                         <li class="fcard">
@@ -987,8 +1168,8 @@
                                 </svg>
                             </span>
                             <div>
-                                <span class="fcard-h">Technical Production</span>
-                                <span class="fcard-d">I take initiative and lead the project to completion.</span>
+                                <span class="fcard-h" data-i18n="about-card-3-h">Technical Production</span>
+                                <span class="fcard-d" data-i18n="about-card-3-d">I take initiative and lead the project to completion.</span>
                             </div>
                         </li>
                     </ul>
@@ -998,7 +1179,7 @@
 
         <section id="games">
             <div class="sec-head">
-                <h2 class="section-title">My <em>games</em></h2>
+                <h2 class="section-title"><span data-i18n="games-title-1">My</span> <em data-i18n="games-title-2">games</em></h2>
             </div>
             <div class="project-grid">
                 <!-- Time Shards -->
@@ -1008,7 +1189,7 @@
                     </div>
                     <div class="project-info">
                         <h3>Time Shards</h3>
-                        <p>A 2D-HD action roguelike where players manipulate time to survive challenging encounters.</p>
+                        <p data-i18n="game-1-short">A 2D-HD action roguelike where players manipulate time to survive challenging encounters.</p>
                         <ul class="tags">
                             <li>Unity</li>
                             <li>C#</li>
@@ -1016,10 +1197,9 @@
                             <li>Action Roguelike</li>
                         </ul>
                         <button class="btn btn-primary view-game-btn" 
-                                data-title="Time Shards" 
-                                data-description="Time Shards is a real-time strategy roguelite where your actions unfold simultaneously with your enemies'. Inspired by tactical titles like Arco, Frozen Synapse, and Door Kickers, the game challenges you to think fast and plan smarter in tense, time-sensitive encounters. After the crystal that holds time together is shattered, you must harness its scattered shards to battle through chaotic realms and restore the timeline—one tactical decision at a time."
-                                data-tags="Unity,C#,2D-HD,Action Roguelike"
-                                data-media='[{"type":"video","src":"assets/videos/time-shards-trailer.mp4","thumb":"assets/images/games/time-shards-thumb.jpg"},{"type":"image","src":"assets/images/games/time-shards-1.jpg"},{"type":"image","src":"assets/images/games/time-shards-2.jpg"},{"type":"image","src":"assets/images/games/time-shards-3.jpg"},{"type":"image","src":"assets/images/games/time-shards-4.jpg"}]'>
+                                data-game="1"
+                                data-media='[{"type":"video","src":"assets/videos/time-shards-trailer.mp4","thumb":"assets/images/games/time-shards-thumb.jpg"},{"type":"image","src":"assets/images/games/time-shards-1.jpg"},{"type":"image","src":"assets/images/games/time-shards-2.jpg"},{"type":"image","src":"assets/images/games/time-shards-3.jpg"},{"type":"image","src":"assets/images/games/time-shards-4.jpg"}]'
+                                data-i18n="games-view">
                             View Game
                         </button>
                     </div>
@@ -1027,12 +1207,12 @@
 
                 <!-- Paw-Some Adventure -->
                 <article class="project-card">
-                    <div class="project-image" style="order: -1;">
+                    <div class="project-image">
                         <img src="assets/images/games/pawsome-adventure.jpg" alt="Paw-Some Adventure" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div class="project-info">
                         <h3>Paw-Some Adventure</h3>
-                        <p>Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce.</p>
+                        <p data-i18n="game-2-short">Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce.</p>
                         <ul class="tags">
                             <li>Unity</li>
                             <li>C#</li>
@@ -1040,10 +1220,9 @@
                             <li>Puzzle</li>
                         </ul>
                         <button class="btn btn-primary view-game-btn" 
-                                data-title="Paw-Some Adventure" 
-                                data-description="Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce. But beware of the spikes.&#10;&#10;Even if you don't have a special ability other than bouncing, there are a bunch of elements with mysterious effect for you to discover and use.&#10;&#10;Maybe your luck allows you to survive the levels, but if you aren't wise enough, forget about the collection of trophies. Three trophies for every level, one for passing it, and the others depends on how many bounces have you done."
-                                data-tags="Unity,C#,Mobile,Puzzle"
-                                data-media='[{"type":"video","src":"assets/videos/pawsome-adventure-trailer.mp4","thumb":"assets/images/games/pawsome-adventure-thumb.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-1.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-2.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-3.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-4.jpg"}]'>
+                                data-game="2"
+                                data-media='[{"type":"video","src":"assets/videos/pawsome-adventure-trailer.mp4","thumb":"assets/images/games/pawsome-adventure-thumb.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-1.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-2.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-3.jpg"},{"type":"image","src":"assets/images/games/pawsome-adventure-4.jpg"}]'
+                                data-i18n="games-view">
                             View Game
                         </button>
                     </div>
@@ -1056,13 +1235,18 @@
                     </div>
                     <div class="project-info">
                         <h3>Hell of a Collector</h3>
-                        <p>A challenging 2D platformer that tests your precision and reflexes in a thematic underworld.</p>
+                        <p data-i18n="game-3-short">Hell of a Collector follows a notorious tomb raider who steals a powerful lost relic and is hunted down by a dangerous cult.</p>
                         <ul class="tags">
                             <li>Unity</li>
                             <li>C#</li>
                             <li>2D Platformer</li>
                         </ul>
-                        <a href="#" class="btn btn-primary">View Game</a>
+                        <button class="btn btn-primary view-game-btn" 
+                                data-game="3"
+                                data-media='[{"type":"video","src":"assets/videos/hell-collector-trailer.mp4","thumb":"assets/images/games/hell-collector-thumb.jpg"},{"type":"image","src":"assets/images/games/hell-collector-1.jpg"},{"type":"image","src":"assets/images/games/hell-collector-2.jpg"},{"type":"image","src":"assets/images/games/hell-collector-3.jpg"},{"type":"image","src":"assets/images/games/hell-collector-4.jpg"}]'
+                                data-i18n="games-view">
+                            View Game
+                        </button>
                     </div>
                 </article>
             </div>
@@ -1070,48 +1254,25 @@
 
         <section id="projects">
             <div class="sec-head">
-                <h2 class="section-title"><em>Projects</em></h2>
+                <h2 class="section-title"><em data-i18n="projects-title">Projects</em></h2>
             </div>
             <div class="project-grid">
-                <!-- Project Template 1 -->
-                <article class="project-card">
-                    <div class="project-image">
-                        <!-- Placeholder -->
-                    </div>
-                    <div class="project-info">
-                        <h3>Project Template Alpha</h3>
-                        <p>A brief description of the project, focusing on the core mechanics and your specific contributions to the development process.</p>
-                        <ul class="tags">
-                            <li>Tool/Library</li>
-                            <li>Language</li>
-                            <li>Scope</li>
-                        </ul>
-                        <a href="#" class="btn btn-primary">View Project</a>
-                    </div>
-                </article>
+                <!-- Projects will be added here -->
+                <p style="color: var(--mute); text-align: center; grid-column: 1/-1;" data-i18n="projects-coming">More projects coming soon...</p>
             </div>
         </section>
 
         <section id="experience">
             <div class="sec-head">
-                <h2 class="section-title"><em>Experience</em></h2>
+                <h2 class="section-title"><em data-i18n="experience-title">Experience</em></h2>
             </div>
             <ol class="timeline">
                 <li class="tl-item">
-                    <div class="tl-date">2024 — Present</div>
+                    <div class="tl-date" data-i18n="exp-1-date">Jan 2026 — Jun 2026</div>
                     <div class="tl-content">
-                        <h3 class="tl-h">Senior Game Programmer <span>@ <a href="https://example.com" target="_blank">Studio Name</a></span></h3>
+                        <h3 class="tl-h"><span data-i18n="exp-1-h">QA Tester Internship</span> <span class="company-accent">@ <a href="https://www.jandusoft.com" target="_blank">JanduSoft</a></span></h3>
                         <div class="tl-body">
-                            <p>Leading the development of core gameplay systems and optimizing performance for multi-platform releases.</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="tl-item">
-                    <div class="tl-date">2021 — 2023</div>
-                    <div class="tl-content">
-                        <h3 class="tl-h">Game Developer <span>@ <a href="https://example.com" target="_blank">Company Name</a></span></h3>
-                        <div class="tl-body">
-                            <p>Contributed to various projects focusing on AI behavior, UI systems, and backend integration.</p>
+                            <p data-i18n="exp-1-body">Tested a plethora of games for their release on PC and other platforms. I've worked on: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes and Codex Lost 2</p>
                         </div>
                     </div>
                 </li>
@@ -1120,15 +1281,24 @@
 
         <section id="education">
             <div class="sec-head">
-                <h2 class="section-title"><em>Education</em></h2>
+                <h2 class="section-title"><em data-i18n="education-title">Education</em></h2>
             </div>
             <ol class="timeline">
                 <li class="tl-item">
-                    <div class="tl-date">2017 — 2021</div>
+                    <div class="tl-date" data-i18n="edu-1-date">2022 — Present</div>
                     <div class="tl-content">
-                        <h3 class="tl-h">Degree in Game Development <span>@ <a href="https://example.com" target="_blank">University Name</a></span></h3>
+                        <h3 class="tl-h"><span data-i18n="edu-1-h">Degree in Game Development</span> <span class="company-accent">@ <a href="https://enti.cat" target="_blank">ENTI-UB</a></span></h3>
                         <div class="tl-body">
-                            <p>Focused on computer science, mathematics, and game engine architecture.</p>
+                            <p data-i18n="edu-1-body">Focusing on game and app development but also provides courses about game design, illustration, modeling, music and narrative.</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="tl-item">
+                    <div class="tl-date" data-i18n="edu-2-date">2020 — 2022</div>
+                    <div class="tl-content">
+                        <h3 class="tl-h"><span data-i18n="edu-2-h">High School Diploma (Technology Track)</span> <span class="company-accent">@ <a href="https://agora.xtec.cat/iesguinovarda/" target="_blank">INS Guinovarda</a></span></h3>
+                        <div class="tl-body">
+                            <p data-i18n="edu-2-body">Focusing on engineering related courses, like mathematics, algebra, physics or chemistry.</p>
                         </div>
                     </div>
                 </li>
@@ -1137,14 +1307,21 @@
 
         <section id="cv">
             <div class="sec-head">
-                <h2 class="section-title">My <em>CV</em></h2>
+                <h2 class="section-title"><span data-i18n="cv-title-1">My</span> <em data-i18n="cv-title-2">CV</em></h2>
             </div>
             <div class="cv-card">
                 <div class="cv-main">
-                    <h3>Want more details?</h3>
-                    <p>Download the full curriculum in PDF format.</p>
+                    <h3 data-i18n="cv-card-h">Want more details?</h3>
+                    <p data-i18n="cv-card-p">Download the full curriculum in PDF format.</p>
                 </div>
-                <a href="#" class="btn btn-primary">Download CV ↓</a>
+                <div class="cv-download-wrapper">
+                    <button id="cv-download-btn" class="btn btn-primary" data-i18n="cv-download-btn">Download CV ↓</button>
+                    <div id="cv-dropdown" class="cv-dropdown">
+                        <a href="assets/docs/cv-en.pdf" download data-i18n="cv-lang-en">English</a>
+                        <a href="assets/docs/cv-es.pdf" download data-i18n="cv-lang-es">Spanish</a>
+                        <a href="assets/docs/cv-ca.pdf" download data-i18n="cv-lang-ca">Catalan</a>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
@@ -1170,11 +1347,11 @@
                 </div>
                 <div class="modal-meta">
                     <div class="meta-row">
-                        <span class="side-label">Genre</span>
-                        <div id="modal-genre">Roguelite, Strategy</div>
+                        <span class="side-label" data-i18n="modal-genre">Genre</span>
+                        <div id="modal-genre">Genre</div>
                     </div>
                     <div class="meta-row">
-                        <span class="side-label">Tags</span>
+                        <span class="side-label" data-i18n="modal-tags">Tags</span>
                         <ul class="modal-tags" id="modal-tags">
                             <!-- Tags injected here -->
                         </ul>
@@ -1241,6 +1418,295 @@
             setTimeout(type, 500);
         }
 
+        // CV Dropdown
+        function initCVDropdown() {
+            const btn = document.getElementById('cv-download-btn');
+            const dropdown = document.getElementById('cv-dropdown');
+            
+            if (!btn || !dropdown) return;
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dropdown.classList.toggle('active');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target) && e.target !== btn) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        }
+
+        initCVDropdown();
+
+        // Multi-language Support
+        const translations = {
+            en: {
+                "nav-about": "About",
+                "nav-games": "Games",
+                "nav-projects": "Projects",
+                "nav-experience": "Experience",
+                "nav-education": "Education",
+                "hero-h1": "Game Programmer & <br> Technical Designer.",
+                "hero-lead": "Site still in development, last updated 11/08/2026",
+                "about-title-1": "About",
+                "about-title-2": "me",
+                "about-headline": "I design and program systems that shape experiences, taking care of the entire development pipeline.",
+                "about-body-1": "Developer focused on video games. I get involved in every project I enter and jump in wherever needed: gameplay, systems, internal tools, or whatever it takes to move it forward.",
+                "about-tools": "Tools",
+                "about-do": "What I do",
+                "about-card-1-h": "Systems & Gameplay",
+                "about-card-1-d": "Mechanics, architecture and the code that sustains the experience.",
+                "about-card-2-h": "Tools & Pipeline",
+                "about-card-2-d": "Tooling and workflows that accelerate the entire team.",
+                "about-card-3-h": "Technical Production",
+                "about-card-3-d": "I take initiative and lead the project to completion.",
+                "games-title-1": "My",
+                "games-title-2": "games",
+                "games-view": "View Game",
+                "projects-title": "Projects",
+                "projects-coming": "More projects coming soon...",
+                "experience-title": "Experience",
+                "exp-1-date": "Jan 2026 — Jun 2026",
+                "exp-1-h": "QA Tester Internship",
+                "exp-1-body": "Tested a plethora of games for their release on PC and other platforms. I've worked on: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes and Codex Lost 2",
+                "education-title": "Education",
+                "edu-1-date": "2022 — Present",
+                "edu-1-h": "Degree in Game Development",
+                "edu-1-body": "Focusing on game and app development but also provides courses about game design, illustration, modeling, music and narrative.",
+                "edu-2-date": "2020 — 2022",
+                "edu-2-h": "High School Diploma (Technology Track)",
+                "edu-2-body": "Focusing on engineering related courses, like mathematics, algebra, physics or chemistry.",
+                "cv-title-1": "My",
+                "cv-title-2": "CV",
+                "cv-card-h": "Want more details?",
+                "cv-card-p": "Download the full curriculum in PDF format.",
+                "cv-download-btn": "Download CV ↓",
+                "cv-lang-en": "English",
+                "cv-lang-es": "Spanish",
+                "cv-lang-ca": "Catalan",
+                "modal-genre": "Genre",
+                "modal-tags": "Tags",
+                "game-1-title": "Time Shards",
+                "game-1-short": "A 2D-HD action roguelike where players manipulate time to survive challenging encounters.",
+                "game-1-desc": "Time Shards is a real-time strategy roguelike where your actions unfold simultaneously with your enemies'. Inspired by tactical titles like Arco, Frozen Synapse, and Door Kickers, the game challenges you to think fast and plan smarter in tense, time-sensitive encounters. After the crystal that holds time together is shattered, you must harness its scattered shards to battle through chaotic realms and restore the timeline—one tactical decision at a time.",
+                "game-1-genre": "Roguelike, Strategy",
+                "game-1-tags": "Unity,C#,2D-HD,Action Roguelike",
+                "game-2-title": "Paw-Some Adventure",
+                "game-2-short": "Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce.",
+                "game-2-desc": "Nyx is a cat who only wants to eat her sushi. In every level of this game, you have to help her reach her food by using the elements in the room and your ability to bounce. <br><br> Even if you don't have a special ability other than bouncing, there are a bunch of elements with mysterious effect for you to discover and use.",
+                "game-2-genre": "Puzzle, Mobile",
+                "game-2-tags": "Unity,C#,Mobile,Puzzle",
+                "game-3-title": "Hell of a Collector",
+                "game-3-short": "Hell of a Collector follows a notorious tomb raider who steals a powerful lost relic and is hunted down by a dangerous cult.",
+                "game-3-desc": "Hell of a Collector follows a notorious tomb raider who steals a powerful lost relic and is hunted down by a dangerous cult. Cornered, he accepts a deal with a mysterious demon called the Collector and becomes trapped in Dante’s inverted Hell, where he must climb from the fourth circle to the ninth to escape.",
+                "game-3-genre": "2D Platformer",
+                "game-3-tags": "Unity,C#,2D Platformer"
+            },
+            es: {
+                "nav-about": "Sobre mí",
+                "nav-games": "Juegos",
+                "nav-projects": "Proyectos",
+                "nav-experience": "Experiencia",
+                "nav-education": "Educación",
+                "hero-h1": "Programador de Juegos & <br> Diseñador Técnico.",
+                "hero-lead": "Sitio aún en desarrollo, última actualización 11/08/2026",
+                "about-title-1": "Sobre",
+                "about-title-2": "mí",
+                "about-headline": "Diseño y programo sistemas que dan forma a experiencias, encargándome de todo el pipeline de desarrollo.",
+                "about-body-1": "Desarrollador enfocado en videojuegos. Me involucro en cada proyecto en el que entro y salto donde sea necesario: gameplay, sistemas, herramientas internas, o lo que haga falta para sacarlo adelante.",
+                "about-tools": "Herramientas",
+                "about-do": "Qué hago",
+                "about-card-1-h": "Sistemas y Gameplay",
+                "about-card-1-d": "Mecánicas, arquitectura y el código que sostiene la experiencia.",
+                "about-card-2-h": "Herramientas y Pipeline",
+                "about-card-2-d": "Herramientas y flujos de trabajo que aceleran a todo el equipo.",
+                "about-card-3-h": "Producción Técnica",
+                "about-card-3-d": "Tomo la iniciativa y lidero el proyecto hasta su finalización.",
+                "games-title-1": "Mis",
+                "games-title-2": "juegos",
+                "games-view": "Ver Juego",
+                "projects-title": "Proyectos",
+                "projects-coming": "Más proyectos próximamente...",
+                "experience-title": "Experiencia",
+                "exp-1-date": "Ene 2026 — Jun 2026",
+                "exp-1-h": "Prácticas de QA Tester",
+                "exp-1-body": "Probé una gran cantidad de juegos para su lanzamiento en PC y otras plataformas. He trabajado en: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes y Codex Lost 2",
+                "education-title": "Educación",
+                "edu-1-date": "2022 — Presente",
+                "edu-1-h": "Grado en Diseño y Desarrollo de Videojuegos",
+                "edu-1-body": "Enfocado en el desarrollo de juegos y aplicaciones, pero también ofrece cursos sobre diseño de juegos, ilustración, modelado, música y narrativa.",
+                "edu-2-date": "2020 — 2022",
+                "edu-2-h": "Bachillerato (Vía Tecnológica)",
+                "edu-2-body": "Centrado en cursos relacionados con la ingeniería, como matemáticas, álgebra, física o química.",
+                "cv-title-1": "Mi",
+                "cv-title-2": "CV",
+                "cv-card-h": "¿Quieres más detalles?",
+                "cv-card-p": "Descarga el currículum completo en formato PDF.",
+                "cv-download-btn": "Descargar CV ↓",
+                "cv-lang-en": "Inglés",
+                "cv-lang-es": "Español",
+                "cv-lang-ca": "Catalán",
+                "modal-genre": "Género",
+                "modal-tags": "Etiquetas",
+                "game-1-title": "Time Shards",
+                "game-1-short": "Un roguelike de acción en 2D-HD donde los jugadores manipulan el tiempo para sobrevivir a encuentros desafiantes.",
+                "game-1-desc": "Time Shards es un roguelike de estrategia en tiempo real donde tus acciones se desarrollan simultáneamente con las de tus enemigos. Inspirado en títulos tácticos como Arco, Frozen Synapse y Door Kickers, el juego te desafía a pensar rápido y planificar mejor en encuentros tensos y sensibles al tiempo. Después de que el cristal que mantiene unido el tiempo se rompa, debes aprovechar sus fragmentos dispersos para luchar a través de reinos caóticos y restaurar la línea temporal, decisión táctica a decisión táctica.",
+                "game-1-genre": "Roguelike, Estrategia",
+                "game-1-tags": "Unity,C#,2D-HD,Action Roguelike",
+                "game-2-title": "Paw-Some Adventure",
+                "game-2-short": "Nyx es una gata que solo quiere comer su sushi. En cada nivel de este juego, tienes que ayudarla a llegar a su comida usando los elementos de la habitación y tu habilidad para rebotar.",
+                "game-2-desc": "Nyx es una gata que solo quiere comer su sushi. En cada nivel de este juego, tienes que ayudarla a llegar a su comida usando los elementos de la habitación y tu habilidad para rebotar. <br><br> Aunque no tengas una habilidad especial más allá de rebotar, hay un montón de elementos con efectos misteriosos para que los descubras y los uses.",
+                "game-2-genre": "Puzle, Móvil",
+                "game-2-tags": "Unity,C#,Móvil,Puzle",
+                "game-3-title": "Hell of a Collector",
+                "game-3-short": "Hell of a Collector sigue a un notorio saqueador de tumbas que roba una poderosa reliquia perdida y es perseguido por un peligroso culto.",
+                "game-3-desc": "Hell of a Collector sigue a un notorio saqueador de tumbas que roba una poderosa reliquia perdida y es perseguido por un peligroso culto. Acorralado, acepta un trato con un misterioso demonio llamado el Coleccionista y queda atrapado en el Infierno invertido de Dante, donde debe escalar desde el cuarto círculo hasta el noveno para escapar.",
+                "game-3-genre": "Plataformas 2D",
+                "game-3-tags": "Unity,C#,Plataformas 2D"
+            },
+            ca: {
+                "nav-about": "Sobre mi",
+                "nav-games": "Jocs",
+                "nav-projects": "Projectes",
+                "nav-experience": "Experiència",
+                "nav-education": "Educació",
+                "hero-h1": "Programador de Jocs & <br> Dissenyador Tècnic.",
+                "hero-lead": "Lloc encara en desenvolupament, última actualització 11/08/2026",
+                "about-title-1": "Sobre",
+                "about-title-2": "mi",
+                "about-headline": "Disseny i programo sistemes que donen forma a experiències, encarregant-me de tot el pipeline de desenvolupament.",
+                "about-body-1": "Desenvolupador enfocat en videojocs. M'involucro en cada projecte on entro i salto on calgui: gameplay, sistemes, eines internes, o el que calgui per tirar-lo endavant.",
+                "about-tools": "Eines",
+                "about-do": "Què faig",
+                "about-card-1-h": "Sistemes i Gameplay",
+                "about-card-1-d": "Mecàniques, arquitectura i el codi que sosté l'experiència.",
+                "about-card-2-h": "Eines i Pipeline",
+                "about-card-2-d": "Eines i fluxos de treball que acceleren tot l'equip.",
+                "about-card-3-h": "Producció Tècnica",
+                "about-card-3-d": "Prenc la iniciativa i lidero el projecte fins a la seva finalització.",
+                "games-title-1": "Els meus",
+                "games-title-2": "jocs",
+                "games-view": "Veure Joc",
+                "projects-title": "Projectes",
+                "projects-coming": "Més projectes properament...",
+                "experience-title": "Experiència",
+                "exp-1-date": "Gen 2026 — Jun 2026",
+                "exp-1-h": "Pràctiques de QA Tester",
+                "exp-1-body": "Vaig provar una gran quantitat de jocs per al seu llançament a PC i altres plataformes. He treballat a: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes i Codex Lost 2",
+                "education-title": "Educació",
+                "edu-1-date": "2022 — Present",
+                "edu-1-h": "Grau en Disseny i Desenvolupament de Videojocs",
+                "edu-1-body": "Enfocat en el desenvolupament de jocs i aplicacions, però també ofereix cursos sobre disseny de jocs, il·lustració, modelatge, música i narrativa.",
+                "edu-2-date": "2020 — 2022",
+                "edu-2-h": "Batxillerat (Via Tecnològica)",
+                "edu-2-body": "Centrat en cursos relacionats amb l'enginyeria, com matemàtiques, àlgebra, física o química.",
+                "cv-title-1": "El meu",
+                "cv-title-2": "CV",
+                "cv-card-h": "Vols més detalls?",
+                "cv-card-p": "Descarrega el currículum complet en format PDF.",
+                "cv-download-btn": "Descarregar CV ↓",
+                "cv-lang-en": "Anglès",
+                "cv-lang-es": "Espanyol",
+                "cv-lang-ca": "Català",
+                "modal-genre": "Gènere",
+                "modal-tags": "Etiquetes",
+                "game-1-title": "Time Shards",
+                "game-1-short": "Un roguelike d'acció en 2D-HD on els jugadors manipulen el temps per sobreviure a trobades desafiants.",
+                "game-1-desc": "Time Shards és un roguelike d'estratègia en temps real on les teves accions es desenvolupen simultàniament amb les dels teus enemics. Inspirat en títols tàctics com Arco, Frozen Synapse i Door Kickers, el joc et desafia a pensar ràpid i planificar millor en trobades tenses i sensibles al temps. Després que el cristall que manté unit el temps es trenqui, has d'aprofitar els seus fragments dispersos per lluitar a través de regnes caòtics i restaurar la línia temporal, decisió tàctica a decisió tàctica.",
+                "game-1-genre": "Roguelike, Estratègia",
+                "game-1-tags": "Unity,C#,2D-HD,Action Roguelike",
+                "game-2-title": "Paw-Some Adventure",
+                "game-2-short": "La Nyx és una gata que només vol menjar el seu sushi. En cada nivell d'aquest joc, l'has d'ajudar a arribar al seu menjar fent servir els elements de l'habitació i la teva habilitat per rebotar.",
+                "game-2-desc": "La Nyx és una gata que només vol menjar el seu sushi. En cada nivell d'aquest joc, l'has d'ajudar a arribar al seu menjar fent servir els elements de l'habitació i la teva habilitat per rebotar. <br><br> Encara que no tinguis una habilitat especial més enllà de rebotar, hi ha un munt d'elements amb efectes misteriosos perquè els descobreixis i els facis servir.",
+                "game-2-genre": "Puzle, Mòbil",
+                "game-2-tags": "Unity,C#,Mòbil,Puzle",
+                "game-3-title": "Hell of a Collector",
+                "game-3-short": "Hell of a Collector segueix un notori saquejador de tombes que roba una poderosa relíquia perduda i és perseguit per un perillós culte.",
+                "game-3-desc": "Hell of a Collector segueix un notori saquejador de tombes que roba una poderosa relíquia perduda i és perseguit per un perillós culte. Acorralat, accepta un tracte amb un misteriós dimoni anomenat el Col·leccionista i queda atrapat a l'Infern invertit de Dante, on ha d'escalar des del quart cercle fins al novè per escapar.",
+                "game-3-genre": "Plataformes 2D",
+                "game-3-tags": "Unity,C#,Plataformes 2D"
+            }
+        };
+
+        function initLanguage() {
+            const langBtn = document.getElementById('lang-btn');
+            const langDropdown = document.getElementById('lang-dropdown');
+            const currentLangSpan = document.getElementById('current-lang');
+            
+            if (!langBtn || !langDropdown) return;
+
+            langBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                langDropdown.classList.toggle('active');
+            });
+
+            langDropdown.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const lang = e.target.dataset.lang;
+                    setLanguage(lang);
+                    langDropdown.classList.remove('active');
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!langDropdown.contains(e.target) && e.target !== langBtn) {
+                    langDropdown.classList.remove('active');
+                }
+            });
+
+            // Default to English
+            setLanguage('en');
+        }
+
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.getElementById('current-lang').textContent = lang.toUpperCase();
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Update open modal if it exists
+            const modal = document.getElementById('game-modal');
+            if (modal.classList.contains('active')) {
+                const gameId = modal.dataset.currentGameId;
+                if (gameId) {
+                    updateModalContent(gameId, lang);
+                }
+            }
+
+            // Special case for Hero H1 and lead as they are not easily marked
+            const heroH1 = document.querySelector('.hero-content h1');
+            if (heroH1) heroH1.innerHTML = translations[lang]['hero-h1'];
+            
+            const heroLead = document.querySelector('.hero-content .lead');
+            if (heroLead) heroLead.textContent = translations[lang]['hero-lead'];
+        }
+
+        function updateModalContent(gameId, lang) {
+            document.getElementById('modal-title').textContent = translations[lang][`game-${gameId}-title`];
+            document.getElementById('modal-description').innerHTML = translations[lang][`game-${gameId}-desc`];
+            document.getElementById('modal-genre').textContent = translations[lang][`game-${gameId}-genre`];
+            
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = '';
+            const tags = translations[lang][`game-${gameId}-tags`].split(',');
+            tags.forEach(t => {
+                const li = document.createElement('li');
+                li.textContent = t.trim();
+                tagsContainer.appendChild(li);
+            });
+        }
+
+        initLanguage();
+
 
         // Smooth internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1269,21 +1735,12 @@
             let slideInterval;
             
             function openModal(btn) {
-                const title = btn.dataset.title;
-                const desc = btn.dataset.description;
-                const tags = btn.dataset.tags.split(',');
-                const media = JSON.parse(btn.dataset.media);
+                const gameId = btn.dataset.game;
+                modal.dataset.currentGameId = gameId;
                 
-                document.getElementById('modal-title').textContent = title;
-                document.getElementById('modal-description').textContent = desc;
+                updateModalContent(gameId, currentLang);
                 
-                const tagsContainer = document.getElementById('modal-tags');
-                tagsContainer.innerHTML = '';
-                tags.forEach(t => {
-                    const li = document.createElement('li');
-                    li.textContent = t.trim();
-                    tagsContainer.appendChild(li);
-                });
+                const media = btn.dataset.media ? JSON.parse(btn.dataset.media) : [];
                 
                 const galleryMain = document.getElementById('modal-gallery-main');
                 const galleryThumbs = document.getElementById('modal-gallery-thumbs');
@@ -1296,6 +1753,9 @@
                     div.className = `gallery-item ${index === 0 ? 'active' : ''}`;
                     
                     if (item.type === 'video') {
+                        const videoContainer = document.createElement('div');
+                        videoContainer.className = 'video-container';
+
                         const video = document.createElement('video');
                         video.src = item.src;
                         video.controls = false;
@@ -1303,7 +1763,8 @@
                         video.autoplay = (index === 0);
                         video.playsInline = true;
                         video.addEventListener('ended', nextSlide);
-                        div.appendChild(video);
+                        
+                        videoContainer.appendChild(video);
 
                         // Add custom controls
                         const controls = document.createElement('div');
@@ -1357,7 +1818,8 @@
                             else if (video.msRequestFullscreen) video.msRequestFullscreen();
                         });
 
-                        div.appendChild(controls);
+                        videoContainer.appendChild(controls);
+                        div.appendChild(videoContainer);
                     } else {
                         const img = document.createElement('img');
                         img.src = item.src;
