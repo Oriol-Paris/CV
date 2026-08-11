@@ -1650,7 +1650,7 @@
                         </ul>
                         <button class="btn btn-primary view-game-btn" 
                                 data-game="11"
-                                data-media='[{"type":"image","src":"./assets/images/projects/ui-design-1.jpg"},{"type":"image","src":"./assets/images/projects/ui-design-2.jpg"},{"type":"image","src":"./assets/images/projects/ui-design.jpg"}]'
+                                data-media='[{"type":"image","src":"./assets/images/projects/ui-design-1.jpg"},{"type":"image","src":"./assets/images/projects/ui-design-2.jpg"}]'
                                 data-i18n="projects-view">
                             View Project
                         </button>
@@ -2292,9 +2292,9 @@
                 tagsContainer.appendChild(li);
             });
 
+            const actionsContainer = document.getElementById('modal-actions');
+            actionsContainer.innerHTML = '';
             if (actions) {
-                const actionsContainer = document.getElementById('modal-actions');
-                actionsContainer.innerHTML = '';
                 actions.forEach(action => {
                     const a = document.createElement('a');
                     a.href = action.url;
