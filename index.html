@@ -138,7 +138,7 @@
 
         .menu-toggle.active .line-1 { transform: rotate(45deg) translate(5px, 5px); }
         .menu-toggle.active .line-2 { opacity: 0; }
-        .menu-toggle.active .line-3 { transform: rotate(-45deg) translate(7px, -6px); }
+        .menu-toggle.active .line-3 { transform: rotate(-45deg) translate(5px, -5px); }
 
         .theme-toggle {
             background: none;
@@ -378,14 +378,21 @@
             }
 
             .lang-dropdown {
-                bottom: 100%;
+                bottom: calc(100% + 10px);
                 top: auto;
                 left: 50%;
-                transform: translateX(-50%) translateY(-10px);
+                transform: translateX(-50%) translateY(10px);
+                opacity: 0;
+                pointer-events: none;
+                display: none;
+                flex-direction: column;
             }
 
             .lang-dropdown.active {
+                display: flex;
                 transform: translateX(-50%) translateY(0);
+                opacity: 1;
+                pointer-events: all;
             }
 
             .theme-toggle {
@@ -1929,7 +1936,8 @@
             const navItems = navLinks.querySelectorAll('a:not([data-lang])');
 
             if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', () => {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     menuToggle.classList.toggle('active');
                     navLinks.classList.toggle('active');
                     document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
@@ -1947,7 +1955,8 @@
                 document.addEventListener('click', (e) => {
                     if (navLinks.classList.contains('active') && 
                         !navLinks.contains(e.target) && 
-                        !menuToggle.contains(e.target)) {
+                        !menuToggle.contains(e.target) &&
+                        !langDropdown.contains(e.target)) {
                         menuToggle.classList.remove('active');
                         navLinks.classList.remove('active');
                         document.body.style.overflow = '';
