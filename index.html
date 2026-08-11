@@ -107,7 +107,11 @@
             font-weight: 600;
             font-size: 1.25rem;
             letter-spacing: -0.02em;
-            color: var(--primary);
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 16s linear infinite;
         }
 
         .nav-links {
@@ -118,7 +122,11 @@
         }
 
         .nav-links a:hover {
-            color: var(--primary);
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 16s linear infinite;
         }
 
         .menu-toggle {
@@ -137,9 +145,9 @@
             transition: transform var(--transition);
         }
 
-        .menu-toggle.active .line-1 { transform: translateY(6px) rotate(45deg); }
+        .menu-toggle.active .line-1 { transform: translateY(5px) rotate(45deg); }
         .menu-toggle.active .line-2 { opacity: 0; }
-        .menu-toggle.active .line-3 { transform: translateY(-6px) rotate(-45deg); }
+        .menu-toggle.active .line-3 { transform: translateY(-5px) rotate(-45deg); }
 
         .menu-toggle line {
             transform-origin: 12px 12px;
@@ -186,7 +194,6 @@
         .hero-name {
             font-size: clamp(4rem, 15vw, 9rem);
             font-weight: 600;
-            color: var(--primary);
             width: fit-content;
             letter-spacing: -0.04em;
             line-height: 1;
@@ -205,10 +212,16 @@
             display: inline-block;
             width: 4px;
             height: 1em;
-            background: var(--primary);
+            background: linear-gradient(0deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: auto 400%;
             margin-left: 2px;
             vertical-align: middle;
-            animation: blink 1s step-end infinite;
+            animation: blink 1s step-end infinite, gradient-shift-y 16s linear infinite;
+        }
+
+        @keyframes gradient-shift-y {
+            0% { background-position: center 0%; }
+            100% { background-position: center -400%; }
         }
 
         .caret.is-off {
@@ -306,8 +319,16 @@
         .fcard-ic {
             width: 24px;
             height: 24px;
-            color: var(--primary);
+            background: linear-gradient(0deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: auto 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift-y 16s linear infinite;
             flex-shrink: 0;
+        }
+
+        .fcard-ic svg {
+            color: inherit;
         }
 
         .fcard-h {
@@ -508,7 +529,7 @@
         [data-theme="dark"] .tcard img[src*="game-design.svg"],
         [data-theme="dark"] .tcard img[src*="qa-testing.svg"],
         [data-theme="dark"] .tcard img[src*="itchio.svg"] {
-            filter: invert(1);
+            filter: invert(0.85);
         }
 
         /* Experience */
@@ -656,9 +677,11 @@
         }
 
         .lang-option.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            color: #f5f5f7;
+            border-color: transparent;
+            animation: gradient-shift 16s linear infinite;
         }
 
         @media (max-width: 860px) {
@@ -689,11 +712,33 @@
             align-items: center;
             gap: 20px;
             letter-spacing: -0.02em;
-            color: var(--primary);
+            color: var(--text);
+        }
+
+        .section-title span {
+            color: var(--text);
         }
 
         .section-title em {
             font-style: normal;
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 16s linear infinite;
+        }
+
+        .typed {
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 16s linear infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% center; }
+            100% { background-position: -400% center; }
         }
 
         .section-title::after {
@@ -720,7 +765,9 @@
             font-size: 0.9rem;
             font-weight: 500;
             transition: all var(--transition);
-            background: var(--primary);
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            animation: gradient-shift 16s linear infinite;
             color: white;
             border: none;
             outline: none;
@@ -740,11 +787,11 @@
             width: 18px;
             height: 18px;
             object-fit: contain;
-            filter: brightness(0) invert(1);
+            filter: brightness(0) invert(0.95);
         }
 
         .btn-action svg {
-            color: white;
+            color: #f5f5f7;
         }
 
         .project-grid {
@@ -867,7 +914,9 @@
         }
 
         .btn-primary {
-            background: var(--primary);
+            background: linear-gradient(90deg, #1b2f65, #233f87, #2e4a9e, #233f87, #1b2f65);
+            background-size: 400% auto;
+            animation: gradient-shift 16s linear infinite;
             color: white;
         }
 
@@ -1433,7 +1482,7 @@
 
         <section id="projects">
             <div class="sec-head">
-                <h2 class="section-title"><em data-i18n="projects-title">Projects</em></h2>
+                <h2 class="section-title"><span data-i18n="projects-title-1"></span> <em data-i18n="projects-title-2">Projects</em></h2>
             </div>
             <div class="project-grid">
                 <!-- Hollow Knight Analysis -->
@@ -1511,7 +1560,7 @@
 
         <section id="experience">
             <div class="sec-head">
-                <h2 class="section-title"><em data-i18n="experience-title">Experience</em></h2>
+                <h2 class="section-title"><span data-i18n="experience-title-1"></span> <em data-i18n="experience-title-2">Experience</em></h2>
             </div>
             <ol class="timeline">
                 <li class="tl-item">
@@ -1528,7 +1577,7 @@
 
         <section id="education">
             <div class="sec-head">
-                <h2 class="section-title"><em data-i18n="education-title">Education</em></h2>
+                <h2 class="section-title"><span data-i18n="education-title-1"></span> <em data-i18n="education-title-2">Education</em></h2>
             </div>
             <ol class="timeline">
                 <li class="tl-item">
@@ -1715,13 +1764,16 @@
                 "games-title-2": "games",
                 "games-view": "View Game",
                 "projects-view": "View Project",
-                "projects-title": "Projects",
+                "projects-title-1": "",
+                "projects-title-2": "Projects",
                 "projects-coming": "More projects coming soon...",
-                "experience-title": "Experience",
+                "experience-title-1": "",
+                "experience-title-2": "Experience",
                 "exp-1-date": "Jan 2026 — Jun 2026",
                 "exp-1-h": "QA Tester Internship",
                 "exp-1-body": "Tested a plethora of games for their release on PC and other platforms. I've worked on: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes and Codex Lost 2",
-                "education-title": "Education",
+                "education-title-1": "",
+                "education-title-2": "Education",
                 "edu-1-date": "2022 — Present",
                 "edu-1-h": "Degree in Game Development",
                 "edu-1-body": "Focusing on game and app development but also provides courses about game design, illustration, modeling, music and narrative.",
@@ -1799,13 +1851,16 @@
                 "games-title-2": "juegos",
                 "games-view": "Ver Juego",
                 "projects-view": "Ver Proyecto",
-                "projects-title": "Proyectos",
+                "projects-title-1": "",
+                "projects-title-2": "Proyectos",
                 "projects-coming": "Más proyectos próximamente...",
-                "experience-title": "Experiencia",
+                "experience-title-1": "",
+                "experience-title-2": "Experiencia",
                 "exp-1-date": "Ene 2026 — Jun 2026",
                 "exp-1-h": "Prácticas de QA Tester",
                 "exp-1-body": "Probé una gran cantidad de juegos para su lanzamiento en PC y otras plataformas. He trabajado en: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes y Codex Lost 2",
-                "education-title": "Educación",
+                "education-title-1": "",
+                "education-title-2": "Educación",
                 "edu-1-date": "2022 — Presente",
                 "edu-1-h": "Grado en Diseño y Desarrollo de Videojuegos",
                 "edu-1-body": "Enfocado en el desarrollo de juegos y aplicaciones, pero también ofrece cursos sobre diseño de juegos, ilustración, modelado, música y narrativa.",
@@ -1883,13 +1938,16 @@
                 "games-title-2": "jocs",
                 "games-view": "Veure Joc",
                 "projects-view": "Veure Projecte",
-                "projects-title": "Projectes",
+                "projects-title-1": "",
+                "projects-title-2": "Projectes",
                 "projects-coming": "Més projectes properament...",
-                "experience-title": "Experiència",
+                "experience-title-1": "",
+                "experience-title-2": "Experiència",
                 "exp-1-date": "Gen 2026 — Jun 2026",
                 "exp-1-h": "Pràctiques de QA Tester",
                 "exp-1-body": "Vaig provar una gran quantitat de jocs per al seu llançament a PC i altres plataformes. He treballat a: <br> Manairons, Farlands, 9 Years of Shadows, Turnip Mountain, Olympus Rangers, Yellowcreek Stories - The Cabin Watcher, FORENSIC - M.E. Protocol, Kemono Heroes i Codex Lost 2",
-                "education-title": "Educació",
+                "education-title-1": "",
+                "education-title-2": "Educació",
                 "edu-1-date": "2022 — Present",
                 "edu-1-h": "Grau en Disseny i Desenvolupament de Videojocs",
                 "edu-1-body": "Enfocat en el desenvolupament de jocs i aplicacions, però també ofereix cursos sobre disseny de jocs, il·lustració, modelatge, música i narrativa.",
