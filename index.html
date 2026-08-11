@@ -120,6 +120,26 @@
             color: var(--primary);
         }
 
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--fg);
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+            transition: all var(--transition);
+            outline: none;
+        }
+
+        .menu-toggle svg {
+            transition: transform var(--transition);
+        }
+
+        .menu-toggle.active .line-1 { transform: rotate(45deg) translate(5px, 5px); }
+        .menu-toggle.active .line-2 { opacity: 0; }
+        .menu-toggle.active .line-3 { transform: rotate(-45deg) translate(7px, -6px); }
+
         .theme-toggle {
             background: none;
             border: 1px solid var(--line);
@@ -315,6 +335,69 @@
         }
 
         @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100vh;
+                background: var(--bg);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 32px;
+                transform: translateX(100%);
+                transition: transform var(--transition);
+                z-index: 99;
+                padding: 40px;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links a {
+                font-size: 1.5rem;
+                font-family: var(--font-display);
+            }
+
+            .lang-selector-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
+            .lang-btn {
+                width: 120px;
+                justify-content: center;
+            }
+
+            .lang-dropdown {
+                bottom: 100%;
+                top: auto;
+                left: 50%;
+                transform: translateX(-50%) translateY(-10px);
+            }
+
+            .lang-dropdown.active {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            .theme-toggle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .theme-toggle svg {
+                width: 24px;
+                height: 24px;
+            }
+
             .tool-cards {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1106,6 +1189,15 @@
         <div class="container">
             <nav>
                 <a href="/" class="logo">OPF</a>
+                
+                <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12" class="line-1"></line>
+                        <line x1="3" y1="6" x2="21" y2="6" class="line-2"></line>
+                        <line x1="3" y1="18" x2="21" y2="18" class="line-3"></line>
+                    </svg>
+                </button>
+
                 <div class="nav-links">
                     <a href="#about" data-i18n="nav-about">About</a>
                     <a href="#games" data-i18n="nav-games">Games</a>
@@ -1831,6 +1923,38 @@
             const langDropdown = document.getElementById('lang-dropdown');
             const currentLangSpan = document.getElementById('current-lang');
             
+            // Menu elements
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const navItems = navLinks.querySelectorAll('a:not([data-lang])');
+
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('active');
+                    navLinks.classList.toggle('active');
+                    document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+                });
+
+                navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        menuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (navLinks.classList.contains('active') && 
+                        !navLinks.contains(e.target) && 
+                        !menuToggle.contains(e.target)) {
+                        menuToggle.classList.remove('active');
+                        navLinks.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
             if (!langBtn || !langDropdown) return;
 
             langBtn.addEventListener('click', (e) => {
